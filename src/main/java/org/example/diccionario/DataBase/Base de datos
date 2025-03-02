@@ -1,0 +1,18 @@
+CREATE DATABASE IF NOT EXISTS diccionariodb;
+USE diccionariodb;
+
+-- Crear tabla palabra
+CREATE TABLE palabra (
+    id INT(11) AUTO_INCREMENT PRIMARY KEY,
+    termino VARCHAR(255) NOT NULL,
+    categoria_gramatical VARCHAR(50) NOT NULL
+);
+
+-- Crear tabla definicion
+CREATE TABLE definicion (
+    id BIGINT(20) AUTO_INCREMENT PRIMARY KEY,
+    descripcion TINYTEXT NOT NULL,
+    ejemplo TINYTEXT NOT NULL,
+    palabra_id INT(11) NOT NULL,
+    FOREIGN KEY (palabra_id) REFERENCES palabra(id) ON DELETE CASCADE
+);
