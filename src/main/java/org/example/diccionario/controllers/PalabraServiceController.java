@@ -19,9 +19,9 @@ import java.util.List;
 public class PalabraServiceController {
 
     @Autowired
-    PalabraService palabraService;
+    private PalabraService palabraService;
     @Autowired
-    DefinicionService definicionService;
+    private DefinicionService definicionService;
 
     @GetMapping
     public ResponseEntity<List<Palabra>> getAllPalabras() {
@@ -44,10 +44,10 @@ public class PalabraServiceController {
         return ResponseEntity.ok(nuevaPalabra);
     }
 
-    @PutMapping
-    public ResponseEntity<Palabra> updatePalabra(@Valid @RequestBody Palabra palabra)
+    @PutMapping("/{id}")
+    public ResponseEntity<Palabra> updatePalabra(@PathVariable Long id, @RequestBody Palabra palabra)
             throws RecordNotFoundException {
-        Palabra updatedPalabra = palabraService.updatePalabra(palabra);
+        Palabra updatedPalabra = palabraService.updatePalabra(id,palabra);
         return ResponseEntity.ok(updatedPalabra);
     }
 

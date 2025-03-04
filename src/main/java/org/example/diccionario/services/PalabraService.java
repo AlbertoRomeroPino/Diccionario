@@ -15,9 +15,9 @@ import java.util.Optional;
 @Service
 public class PalabraService {
     @Autowired
-    PalabraRepository palabraRepository;
+    private PalabraRepository palabraRepository;
     @Autowired
-    DefinicionRepository definicionRepository;
+    private DefinicionRepository definicionRepository;
 
     public List<Palabra> getAllPalabras() {
         List<Palabra> palabraLista = palabraRepository.findAll();
@@ -51,12 +51,13 @@ public class PalabraService {
     }
 
 
-    public Palabra updatePalabra(Palabra palabra) throws RecordNotFoundException {
+    public Palabra updatePalabra(Long id, Palabra palabra) throws RecordNotFoundException {
+        palabra.setId(id);
         if (palabra.getId() == null) {
             throw new RecordNotFoundException("Palabra sin identificador", 0L);
         }
 
-        Optional<Palabra> palabraOptional = palabraRepository.findById(palabra.getId());
+        Optional<Palabra> palabraOptional = palabraRepository.findById(id);
 
         if (palabraOptional.isPresent()) {
             Palabra newPalabra = palabraOptional.get();
