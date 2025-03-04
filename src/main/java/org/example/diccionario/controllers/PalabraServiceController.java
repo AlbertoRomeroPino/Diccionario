@@ -88,7 +88,7 @@ public class PalabraServiceController {
     }
 
     @PostMapping("/con-definicion")
-    public ResponseEntity<Palabra> PalabraConDefinicion(@RequestBody Palabra palabra) {
+    public ResponseEntity<Palabra> palabraConDefinicion(@RequestBody Palabra palabra) {
         Palabra newPalabra = palabraService.createPalabraDefinicion(palabra);
 
         return ResponseEntity.ok(newPalabra);

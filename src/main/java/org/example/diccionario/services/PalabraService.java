@@ -17,7 +17,7 @@ public class PalabraService {
     @Autowired
     PalabraRepository palabraRepository;
     @Autowired
-    private DefinicionRepository definicionRepository;
+    DefinicionRepository definicionRepository;
 
     public List<Palabra> getAllPalabras() {
         List<Palabra> palabraLista = palabraRepository.findAll();
