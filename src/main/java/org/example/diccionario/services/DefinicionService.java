@@ -30,11 +30,7 @@ public class DefinicionService {
         }
     }
 
-    public List<Definicion> getAllDefinicion(Long id) throws RecordNotFoundException {
 
-        return definicionRepository.getBypalabra(id);
-
-    }
 
     public Definicion createDefinicion(Definicion definicion, Long id) {
         if (definicion == null) {
@@ -59,5 +55,10 @@ public class DefinicionService {
         }
     }
 
+    public List<Definicion> getAllDefinicion(Long id) throws RecordNotFoundException {
+
+        return definicionRepository.getBypalabra(id);
+
+    }
 
 }
