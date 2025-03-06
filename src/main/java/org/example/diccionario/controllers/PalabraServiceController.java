@@ -12,29 +12,37 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/palabra")
 public class PalabraServiceController {
 
     @Autowired
-    private PalabraService palabraService;
+    PalabraService palabraService;
     @Autowired
-    private DefinicionService definicionService;
+    DefinicionService definicionService;
 
     @GetMapping
     public ResponseEntity<List<Palabra>> getAllPalabras() {
         List<Palabra> palabras = palabraService.getAllPalabras();
 
-        return new ResponseEntity<List<Palabra>>(palabras, new HttpHeaders(), HttpStatus.OK);
+        List<Palabra> palabrasSinDefiniciones = palabras.stream()
+                .map(palabra -> {
+                    palabra.setDefinicions(null);
+                    return palabra;
+                })
+                .collect(Collectors.toList());
+        return new ResponseEntity<>(palabrasSinDefiniciones, new HttpHeaders(), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Palabra> getPalabra(@PathVariable Long id)
             throws RecordNotFoundException {
         Palabra palabra = palabraService.getPalabraById(id);
-
+        palabra.setDefinicions(null);
         return new ResponseEntity<Palabra>(palabra, new HttpHeaders(), HttpStatus.OK);
     }
 
@@ -47,7 +55,8 @@ public class PalabraServiceController {
     @PutMapping("/{id}")
     public ResponseEntity<Palabra> updatePalabra(@PathVariable Long id, @RequestBody Palabra palabra)
             throws RecordNotFoundException {
-        Palabra updatedPalabra = palabraService.updatePalabra(id,palabra);
+        palabra.setId(id);
+        Palabra updatedPalabra = palabraService.updatePalabra(palabra);
         return ResponseEntity.ok(updatedPalabra);
     }
 
@@ -57,20 +66,6 @@ public class PalabraServiceController {
             throws RecordNotFoundException {
         palabraService.deletePalabra(id);
         return HttpStatus.ACCEPTED;
-    }
-
-    @GetMapping("/{id}/definiciones")
-    public ResponseEntity<List<Definicion>> palabraDefinicion(@PathVariable Long id) throws RecordNotFoundException {
-        List<Definicion> definicion = definicionService.getAllDefinicion(id);
-
-        return ResponseEntity.ok(definicion);
-    }
-
-    @PostMapping("/{id}/definiciones")
-    public ResponseEntity<Definicion> createDefinicion(@RequestBody Definicion definicion, @PathVariable Long id){
-        Definicion nuevaDefinicion = definicionService.createDefinicion(definicion, id);
-
-        return ResponseEntity.ok(nuevaDefinicion);
     }
 
     @GetMapping("/inicial/{letra}")

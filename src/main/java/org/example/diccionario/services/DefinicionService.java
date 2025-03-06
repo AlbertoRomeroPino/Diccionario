@@ -31,9 +31,8 @@ public class DefinicionService {
     }
 
     public List<Definicion> getAllDefinicion(Long id) throws RecordNotFoundException {
-        List<Definicion> definicionList = definicionRepository.getBypalabra(id);
 
-        return definicionList;
+        return definicionRepository.getBypalabra(id);
 
     }
 
@@ -59,4 +58,6 @@ public class DefinicionService {
             throw new RuntimeException("Error al guardar la palabra en la base de datos.", e);
         }
     }
+
+
 }
